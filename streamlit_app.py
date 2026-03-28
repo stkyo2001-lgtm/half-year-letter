@@ -105,12 +105,14 @@ elif st.session_state.stage == 2:
 elif st.session_state.stage == 3:
     ans3 = st.radio("第三題：當我突然訊息回很慢的時候，其實是因為：", 
                     ["(A) 我睡著了😪", "(B) 手機沒電了🪫", "(C) 我去洗澡了🛁", "(D) 我不開心了😕"])
+    
     if st.button("確認第三題答案"):
-    if "(D)" in ans3:
-        st.success("哦！答對了！！😤 有時候只是因為想你了所以不開心🥲")
-        # 這裡可以加一個按鈕跳到下一題
-    elif ans3 != "請選擇":
-        st.error("雖然這個也有可能，但不對！🙅‍♂️")
+        if "(D)" in ans3:
+            st.success("哦！答對了！！😤 有時候只是因為想你了所以不開心🥲")
+            st.session_state.stage = 4  # 加入這行，讓系統知道要跳到第四題
+            st.rerun()                  # 加入這行，讓網頁立刻重新整理顯示下一題
+        else:
+            st.error("雖然這個也有可能，但不對！🙅‍♂️")
 
 elif st.session_state.stage == 4:
     ans4 = st.selectbox("第四題：猜猜你有沒有曾因為某個小行動讓我心碎或不開心過？", ["請選擇", "有", "沒有"])
@@ -128,21 +130,20 @@ elif st.session_state.stage == 4:
 
 elif st.session_state.stage == 5:
     ans5 = st.radio("第五題：猜猜你女朋友現在最想要被你怎樣？", 
-                ["請選擇", "(A) 摸頭", "(B) 抱抱", "(C) 親親", "(D) 一發不可收拾"])
-
-if st.button("最後一關！解鎖卡片"):
-    if "(C)" in ans5:
-        st.balloons() # 這裡會噴氣球！
-        st.success("哦！居然一次就猜對了！好的！現在可以親吻你的女朋友😗 然後看卡片了～")
-        st.session_state.stage = 6 # 切換到顯示信件的階段
-        st.rerun() # 強制網頁刷新顯示信件內容
+                    ["(A) 摸頭", "(B) 抱抱", "(C) 親親", "(D) 一發不可收拾"])
+    
+    if st.button("最後一關！解鎖卡片"):
+        if "(C)" in ans5:
+            st.balloons()  # 慶祝氣球
+            st.success("哦！居然一次就猜對了！好的！現在可以親吻你的女朋友😗 然後看卡片了～")
+            st.session_state.stage = 6  # 加入這行，正式解鎖信件內容
+            st.rerun()                  # 讓網頁跳轉到讀信畫面
         elif "(A)" in ans5:
             st.info("嗯～還不錯～ 但現在不是最想要這個🙂‍↔️")
         elif "(B)" in ans5:
             st.info("這個～也喜歡！那就等你猜對以後 都做吧！🤩")
         elif "(D)" in ans5:
             st.warning("哦...這個有點刺激🫨 雖然也有點想要🫣，但不行😭")
-
 elif st.session_state.stage == 6:
     st.header("💖 你的專屬卡片已解鎖 💖")
     for line in letter:
