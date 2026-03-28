@@ -106,14 +106,16 @@ elif st.session_state.stage == 3:
     ans3 = st.radio("第三題：當我突然訊息回很慢的時候，其實是因為：", 
                     ["(A) 我睡著了😪", "(B) 手機沒電了🪫", "(C) 我去洗澡了🛁", "(D) 我不開心了😕"])
     
-    if st.button("確認第三題答案"):
-        if "(D)" in ans3:
-            st.success("哦！答對了！！😤 有時候只是因為想你了所以不開心🥲")
-            st.session_state.stage = 4  # 加入這行，讓系統知道要跳到第四題
-            st.rerun()                  # 加入這行，讓網頁立刻重新整理顯示下一題
-        else:
-            st.error("雖然這個也有可能，但不對！🙅‍♂️")
-
+    if st.button("確認第三題答案") or st.session_state.get('ans3_correct', False):
+    if "(D)" in ans3:
+        st.session_state.ans3_correct = True # 紀錄已經答對了
+        st.success("哦！答對了！！😤 有時候只是因為想你了所以不開心😉")
+        
+        if st.button("下一題"):
+            st.session_state.stage = 4
+            st.rerun()
+    else:
+        st.error("雖然這個也有可能，但不對！🙅")
 elif st.session_state.stage == 4:
     ans4 = st.selectbox("第四題：猜猜你有沒有曾因為某個小行動讓我心碎或不開心過？", ["請選擇", "有", "沒有"])
     if ans4 == "有":
