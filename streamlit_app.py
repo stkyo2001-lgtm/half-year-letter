@@ -108,8 +108,8 @@ elif st.session_state.stage == 3:
     
     if st.button("確認第三題答案") or st.session_state.get('ans3_correct', False):
         if "(D)" in ans3:
-        st.session_state.ans3_correct = True # 紀錄已經答對了
-        st.success("哦！答對了！！😤 有時候只是因為想你了所以不開心😉")
+           st.session_state.ans3_correct = True # 紀錄已經答對了
+           st.success("哦！答對了！！😤 有時候只是因為想你了所以不開心😉")
         
         if st.button("下一題"):
             st.session_state.stage = 4
